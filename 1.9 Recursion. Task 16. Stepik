@@ -4,6 +4,7 @@
 using namespace std;
 
 vector <int> v(11);
+vector <int> value(11);
 
 bool CanPlaceNextQuin (int i, int value){
   for (int k = i - 1; k > 0; k--){
@@ -22,8 +23,10 @@ int place (int x, int y, int z){
 int main (){
   int n, pntr = 0, point, val;
   int init = 1, output = 1;
+  
+  //INPUT
   cin >> n >> point >> val;
-  //vector <int> v(n);
+
   
   //inite v[i]
   init = 1;
@@ -34,17 +37,41 @@ int main (){
   }
   v[0] = 0;
   v[1] = 1;
+  //inite value[j]
+  init = 1;
+  if (init == 1) {
+    for (int j = 1; j <= n; j++){
+      value[j] = j;
+    }
+  }  
   
+  
+  
+  //PROCESSING
+  
+  
+  
+  
+  
+  
+  //OUTPUT
   cout << n << endl;
   cout << "Funk " << place(1, v[0], n) << endl;
   cout << "CanPlaceNextQuin: " << CanPlaceNextQuin(point, val) << endl;
   //output of v[i]
   output = 1;
   if (output == 1) {
-    for (int i = 0; i < n; i++){
+    for (int i = 0; i <= n; i++){
       cout << v[i] << " ";
     }
+    cout << endl;
   }
+  //output of value[j]
+  if (output == 1) {
+    for (int j = 0; j <= n; j++){
+      cout << value[j] << " ";
+    }
+  }  
 
 
 return 0;
