@@ -5,18 +5,20 @@ using namespace std;
 
 vector <int> v(11);
 vector <int> value(11);
-void IniteValues (){
-	for (int j = 1; j <= n; j++){
+int sum = 0;
+
+void IniteValues (int n){
+	for (int j = 0; j <= n; j++){
 		value[j] = j;
 	}
 }
 
-void IniteBoard (int Start){
-	for (int i = 0; i < n; i++){
+void IniteBoard (int Start, int n){
+	for (int i = 1; i <= n; i++){
 		v[i] = 0;
 	}
 	v[1] = Start;
-	IniteValues();
+	IniteValues(n);
 	value[Start] = 0;
 }
 
@@ -39,10 +41,23 @@ void PlaceQuin (int i, int n){
 					j = n + 1;
 					PlaceQuin(++i, n);
 				}
+				else {
+					if (v[1] < n){
+						IniteBoard(v[1], n);
+						//PlaceQuin(2, n);
+					}
+				}
 			}
 		}
 	} else {
 		v[0]++;
+		sum++;
+		if (v[1] < n){
+			IniteBoard(++v[1], n);
+			PlaceQuin(2, n);
+		}
+		
+	}
 		
 }
 
@@ -55,7 +70,7 @@ int main (){
 
   
   //inite v[i]
-  init = 1;
+  init = 0;
   if (init == 1) {
     for (int i = 0; i < n; i++){
       v[i] = 0;
@@ -64,21 +79,24 @@ int main (){
   //v[0] = 0;
   //v[1] = 1;
   //inite value[j]
-  init = 1;
+  init = 0;
   if (init == 1) {
     for (int j = 1; j <= n; j++){
       value[j] = j;
     }
   }  
   //value[1] = 0;
+  IniteBoard(point, n);
   
   
   //PROCESSING
-  PlaceQuin(point, n);
+  PlaceQuin(++point, n);
+  //IniteBoard(2, n);
+  //(2, n);
 
   
   //OUTPUT
-  cout << n << endl;
+  cout << sum << endl;
   //cout << "Funk " << place(1, v[0], n) << endl;
   //cout << "CanPlaceNextQuin: " << CanPlaceNextQuin(point, val) << endl;
   //output of v[i]
