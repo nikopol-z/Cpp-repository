@@ -41,13 +41,11 @@ void PlaceQuin (int i, int n){
 					j = n + 1;
 					PlaceQuin(++i, n);
 				}
-				else {
-					if (v[1] < n){
-						IniteBoard(v[1], n);
-						//PlaceQuin(2, n);
-					}
-				}
 			}
+		}
+		if (v[1] < n){
+			IniteBoard(++v[1], n);
+			PlaceQuin(2, n);
 		}
 	} else {
 		v[0]++;
@@ -62,30 +60,16 @@ void PlaceQuin (int i, int n){
 }
 
 int main (){
-  int n, pntr = 0, point, val;
-  int init = 1, output = 1;
+  int n, point;
+  int init = 0, output = 1;
   
   //INPUT
-  cin >> n >> point >> val;
+  cin >> n >> point;
 
   
   //inite v[i]
-  init = 0;
-  if (init == 1) {
-    for (int i = 0; i < n; i++){
-      v[i] = 0;
-    }
-  }
-  //v[0] = 0;
-  //v[1] = 1;
   //inite value[j]
-  init = 0;
-  if (init == 1) {
-    for (int j = 1; j <= n; j++){
-      value[j] = j;
-    }
-  }  
-  //value[1] = 0;
+
   IniteBoard(point, n);
   
   
@@ -97,8 +81,7 @@ int main (){
   
   //OUTPUT
   cout << sum << endl;
-  //cout << "Funk " << place(1, v[0], n) << endl;
-  //cout << "CanPlaceNextQuin: " << CanPlaceNextQuin(point, val) << endl;
+
   //output of v[i]
   output = 1;
   if (output == 1) {
