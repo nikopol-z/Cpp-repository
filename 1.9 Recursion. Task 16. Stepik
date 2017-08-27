@@ -5,6 +5,20 @@ using namespace std;
 
 vector <int> v(11);
 vector <int> value(11);
+void IniteValues (){
+	for (int j = 1; j <= n; j++){
+		value[j] = j;
+	}
+}
+
+void IniteBoard (int Start){
+	for (int i = 0; i < n; i++){
+		v[i] = 0;
+	}
+	v[1] = Start;
+	IniteValues();
+	value[Start] = 0;
+}
 
 bool CanPlaceNextQuin (int i, int value){
   for (int k = i - 1; k > 0; k--){
@@ -16,16 +30,20 @@ return true;
 
 
 void PlaceQuin (int i, int n){
-	for (int j = 1; j <= n; j++){
-		if (value[j] != 0){
-			if (CanPlaceNextQuin(i, value[j])){
-				v[i] = value[j];
-				value[j] = 0;
-				j = n + 1;
-				PlaceQuin(++i, n);
+	if (i <= n){
+		for (int j = 1; j <= n; j++){
+			if (value[j] != 0){
+				if (CanPlaceNextQuin(i, value[j])){
+					v[i] = value[j];
+					value[j] = 0;
+					j = n + 1;
+					PlaceQuin(++i, n);
+				}
 			}
 		}
-	}
+	} else {
+		v[0]++;
+		
 }
 
 int main (){
@@ -43,8 +61,8 @@ int main (){
       v[i] = 0;
     }
   }
-  v[0] = 0;
-  v[1] = 1;
+  //v[0] = 0;
+  //v[1] = 1;
   //inite value[j]
   init = 1;
   if (init == 1) {
@@ -52,7 +70,7 @@ int main (){
       value[j] = j;
     }
   }  
-  value[1] = 0;
+  //value[1] = 0;
   
   
   //PROCESSING
