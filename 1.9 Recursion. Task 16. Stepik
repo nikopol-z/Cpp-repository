@@ -14,11 +14,19 @@ bool CanPlaceNextQuin (int i, int value){
 return true;
 }
 
-int place (int x, int y, int z){
-	if (x == z) return 1;
-	else return place(++x, ++y, z);
-}
 
+void PlaceQuin (int i, int n){
+	for (int j = 1; j <= n; j++){
+		if (value[j] != 0){
+			if (CanPlaceNextQuin(i, value[j])){
+				v[i] = value[j];
+				value[j] = 0;
+				j = n + 1;
+				PlaceQuin(++i, n);
+			}
+		}
+	}
+}
 
 int main (){
   int n, pntr = 0, point, val;
@@ -44,20 +52,17 @@ int main (){
       value[j] = j;
     }
   }  
-  
+  value[1] = 0;
   
   
   //PROCESSING
-  
-  
-  
-  
-  
+  PlaceQuin(point, n);
+
   
   //OUTPUT
   cout << n << endl;
-  cout << "Funk " << place(1, v[0], n) << endl;
-  cout << "CanPlaceNextQuin: " << CanPlaceNextQuin(point, val) << endl;
+  //cout << "Funk " << place(1, v[0], n) << endl;
+  //cout << "CanPlaceNextQuin: " << CanPlaceNextQuin(point, val) << endl;
   //output of v[i]
   output = 1;
   if (output == 1) {
