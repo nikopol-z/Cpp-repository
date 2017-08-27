@@ -1,16 +1,16 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 using namespace std;
 
 vector <int> v(11);
 
 bool CanPlaceNextQuin (int i, int value){
-  //int k = i - 1;
   for (int k = i - 1; k > 0; k--){
-    if (abs(i - k) != abs(v[i] - v[k]));
-    else return False;
+    if (abs(i - k) != abs(value - v[k]));
+    else return false;
   }
-return True;
+return true;
 }
 
 int place (int x, int y, int z){
@@ -32,7 +32,8 @@ int main (){
       v[i] = 0;
     }
   }
-  v[0] = 2;
+  v[0] = 0;
+  v[1] = 1;
   
   cout << n << endl;
   cout << "Funk " << place(1, v[0], n) << endl;
