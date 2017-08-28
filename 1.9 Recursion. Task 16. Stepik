@@ -30,10 +30,30 @@ bool CanPlaceNextQuin (int i, int value){
 return true;
 }
 
+void StepBack (int i, int n){
+	if (i >= 1){
+		if (v[i] < n){
+			value[v[i]] = v[i];
+			v[i] = 0;
+			for (int j = v[i]; j <= n; ++j){
+				if (value[j] != 0){
+					if (CanPlaceNextQuin){
+						v[i] = value[j];
+						value[j] = 0;
+						j = n + 1;
+						PlaceQuin(++i, n);
+					}
+				}
+			}
+		}
+		StepBack(--i, n);
+	}
+}
+
 
 void PlaceQuin (int i, int n){
 	if (i <= n){
-		for (int j = 1; j <= n; j++){
+		for (int j = v[i]; j <= n; ++j){
 			if (value[j] != 0){
 				if (CanPlaceNextQuin(i, value[j])){
 					v[i] = value[j];
@@ -43,18 +63,11 @@ void PlaceQuin (int i, int n){
 				}
 			}
 		}
-		if (v[1] < n){
-			IniteBoard(++v[1], n);
-			PlaceQuin(2, n);
-		}
+		StepBack(--i, n);
 	} else {
 		v[0]++;
 		sum++;
-		if (v[1] < n){
-			IniteBoard(++v[1], n);
-			PlaceQuin(2, n);
-		}
-		
+		StepBack(--i, n);
 	}
 		
 }
@@ -74,7 +87,7 @@ int main (){
   
   
   //PROCESSING
-  PlaceQuin(++point, n);
+  //PlaceQuin(++point, n);
   //IniteBoard(2, n);
   //(2, n);
 
