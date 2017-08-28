@@ -23,13 +23,13 @@ void IniteBoard (int Start, int n){
 }
 
   //output of v[i]
-  void Output (int k, int n){
+  void Output (int k, int j, int n){
   	cout << "v[" << k << "]:     ";
   	for (int i = 0; i <= n; i++){
 	cout << v[i] << " ";
 	}
 	cout << endl;
-	cout << "value[j]: ";
+	cout << "value[" << j << "]: ";
 	for (int j = 0; j <= n; j++){
 	cout << value[j] << " ";
 	}
@@ -46,12 +46,13 @@ return true;
 }
 
 void Step (int i, int n){
-	int j;
+	int j = 0;
 	if ((i > 0) && (i <= n)){
 		//branch of the investigment
 		cout << "If Branch " << v[0] << endl;
-		Output(i, n);
+		
 		j = v[i];
+		Output(i, j, n);
 		while (j < n){
 			
 		//for (int j = v[i]; j < n; j++){
@@ -73,14 +74,18 @@ void Step (int i, int n){
 	}
 	else {
 		cout << "Else Branch" << endl;
-		Output(i, n);
+		Output(i, j, n);
 		if (i > n){			//branch of succes
 			v[0]++;		//Plus one to the amount of cases
 			Step(--i, n);	//going back to find more cases
 		}
 		else if (i == 0) {
 			cout << "=================" << endl << "v[0] = " << v[0] <<" The End" << endl << "=================" << endl; //This is the end (if i = 0)}
-			j = n +1;
+			i = -10;
+			j = -10;
+			for (int i = 1; i <= n; i++){
+				v[i] = n + 1;
+			}
 		}
 	}
 }
