@@ -22,6 +22,21 @@ void IniteBoard (int Start, int n){
 	value[Start] = 0;
 }
 
+  //output of v[i]
+  void Output (int k, int n){
+  	cout << "v[" << k << "]:     ";
+  	for (int i = 0; i <= n; i++){
+	cout << v[i] << " ";
+	}
+	cout << endl;
+	cout << "value[j]: ";
+	for (int j = 0; j <= n; j++){
+	cout << value[j] << " ";
+	}
+	cout << endl;
+  }
+
+
 bool CanPlaceQuin (int i, int value){
   for (int k = i - 1; k > 0; k--){
     if (abs(i - k) != abs(value - v[k]));
@@ -31,16 +46,12 @@ return true;
 }
 
 void Step (int i, int n){
-	if ((i <= 0) && (i > n)){
-		cout << "If Branch" << endl;
-		if (i > n){			//branch of succes
-			v[0]++;		//Plus one to the amount of cases
-			Step(--i, n);	//going back to find more cases
-		}
-		cout << "The End"; //This is the end (if i = 0)
-	} else {				//branch of the investigment
-		cout << "Else Branch " << v[0] << endl;
-		int j = v[i];
+	int j;
+	if ((i > 0) && (i <= n)){
+		//branch of the investigment
+		cout << "If Branch " << v[0] << endl;
+		Output(i, n);
+		j = v[i];
 		while (j < n){
 			
 		//for (int j = v[i]; j < n; j++){
@@ -59,6 +70,18 @@ void Step (int i, int n){
 		v[i] = 0;		//deleting value in the 'i' colon
 		Step(--i, n);	//goint to the preveous colon
 		
+	}
+	else {
+		cout << "Else Branch" << endl;
+		Output(i, n);
+		if (i > n){			//branch of succes
+			v[0]++;		//Plus one to the amount of cases
+			Step(--i, n);	//going back to find more cases
+		}
+		else if (i == 0) {
+			cout << "=================" << endl << "v[0] = " << v[0] <<" The End" << endl << "=================" << endl; //This is the end (if i = 0)}
+			j = n +1;
+		}
 	}
 }
 
@@ -79,12 +102,13 @@ int main (){
   //PROCESSING
   //PlaceQuin(++point, n);
   Step(1, n);
+  //cout << "BOOL:" << CanPlaceQuin(1, value[1]) << endl;
   //(2, n);
 
   
   //OUTPUT
-  cout << sum << endl;
-
+  //cout << sum << endl;
+/*
   //output of v[i]
   output = 1;
   if (output == 1) {
@@ -99,7 +123,9 @@ int main (){
       cout << value[j] << " ";
     }
   }  
-
+*/
+cout << "----------------" << endl;
+//Output(i, n);
 
 return 0;
 }
