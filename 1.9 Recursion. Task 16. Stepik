@@ -31,19 +31,22 @@ return true;
 }
 
 void Step (int i, int n){
-	if !(i > 0 $$ i <= n){
+	if ((i <= 0) && (i > n)){
+		cout << "If Branch" << endl;
 		if (i > n){			//branch of succes
 			v[0]++;		//Plus one to the amount of cases
 			Step(--i, n);	//going back to find more cases
-		}			//This is the end (if i = 0)
+		}
+		cout << "The End"; //This is the end (if i = 0)
 	} else {				//branch of the investigment
+		cout << "Else Branch " << v[0] << endl;
 		int j = v[i];
 		while (j < n){
 			
 		//for (int j = v[i]; j < n; j++){
 			j++;
 			if (value[j] != 0){
-				if (CanPlaceQuin(i, j)){	//step forward
+				if (CanPlaceQuin(i, value[j])){	//step forward
 					value[v[i]] = v[i];	//saving current value in the 'i' colon
 					v[i] = value[j];	//placing new (tested) value to the board
 					value[j] = 0;	//deleting value that we placed above from the vecter of free values
@@ -51,31 +54,31 @@ void Step (int i, int n){
 				}
 			}
 		} 
-		else {			//step back
-			value[v[i]] = v[i];	//saving current value in the 'i' colon to the vecter of free values
-			v[i] = 0;		//deleting value in the 'i' colon
-			Step(--i, n);	//goint to the preveous colon
-		}
+		//step back
+		value[v[i]] = v[i];	//saving current value in the 'i' colon to the vecter of free values
+		v[i] = 0;		//deleting value in the 'i' colon
+		Step(--i, n);	//goint to the preveous colon
+		
 	}
 }
 
 int main (){
-  int n, point;
+  int n;
   int init = 0, output = 1;
   
   //INPUT
-  cin >> n >> point;
+  cin >> n;
 
   
   //inite v[i]
   //inite value[j]
 
-  IniteBoard(point, n);
+  IniteBoard(0, n);
   
   
   //PROCESSING
   //PlaceQuin(++point, n);
-  //IniteBoard(2, n);
+  Step(1, n);
   //(2, n);
 
   
