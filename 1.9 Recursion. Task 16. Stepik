@@ -22,7 +22,7 @@ void IniteBoard (int Start, int n){
 	value[Start] = 0;
 }
 
-bool CanPlaceNextQuin (int i, int value){
+bool CanPlaceQuin (int i, int value){
   for (int k = i - 1; k > 0; k--){
     if (abs(i - k) != abs(value - v[k]));
     else return false;
@@ -30,46 +30,34 @@ bool CanPlaceNextQuin (int i, int value){
 return true;
 }
 
-
-
-int PlaceQuinProc (int i, int n){
-	for (int j = v[i]; j <= n; ++j){
-		if (value[j] != 0){
-			if (CanPlaceNextQuin(i, value[j])){
-				v[i] = value[j];
-				value[j] = 0;
-				j = n + 1;
-				return 1;
+void Step (int i, int n){
+	if !(i > 0 $$ i <= n){
+		if (i > n){			//branch of succes
+			v[0]++;		//Plus one to the amount of cases
+			Step(--i, n);	//going back to find more cases
+		}			//This is the end (if i = 0)
+	} else {				//branch of the investigment
+		int j = v[i];
+		while (j < n){
+			
+		//for (int j = v[i]; j < n; j++){
+			j++;
+			if (value[j] != 0){
+				if (CanPlaceQuin(i, j)){	//step forward
+					value[v[i]] = v[i];	//saving current value in the 'i' colon
+					v[i] = value[j];	//placing new (tested) value to the board
+					value[j] = 0;	//deleting value that we placed above from the vecter of free values
+					Step(++i, n);	//going to the next colon
+				}
 			}
+		} 
+		else {			//step back
+			value[v[i]] = v[i];	//saving current value in the 'i' colon to the vecter of free values
+			v[i] = 0;		//deleting value in the 'i' colon
+			Step(--i, n);	//goint to the preveous colon
 		}
 	}
 }
-
-void PlaceQuin (int i, int n){
-	if (i <= n){
-		if (PlaceQuinProc(i, n) == 1) PlaceQuin(++i, n);
-		StepBack(--i, n);
-	} else {
-		v[0]++;
-		sum++;
-		StepBack(--i, n);
-	}
-		
-}
-
-void StepBack (int i, int n){
-	if (i >= 1){
-		if (v[i] < n){
-			value[v[i]] = v[i];
-			v[i] = 0;
-			PlaceQuinProc(i, n);
-		}
-		StepBack(--i, n);
-	}
-}
-
-
-
 
 int main (){
   int n, point;
