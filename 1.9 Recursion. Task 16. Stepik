@@ -3,26 +3,42 @@
 #include <cmath>
 using namespace std;
 
-vector <int> v(11);
-vector <int> value(11);
-int sum = 0;
+vector <int> v(11);	//vector of coordinates of Quins. i - column, v[i] - line.
+		//v[0] is used like a counter of successful placing all of the Quins!
+vector <int> value(11); //vector of FREE values which can be given to v[i]. 
+		//This is made to avoid testing if Quins are on the same line.
 
-void IniteValues (int n){
+void IniteValues (int n){	//Proc that initiate possible values for "lines".
 	for (int j = 0; j <= n; j++){
 		value[j] = j;
 	}
 }
 
-void IniteBoard (int Start, int n){
+void IniteBoard (int Start, int n){	//Proc that initiate coordinates of Quins.
 	for (int i = 1; i <= n; i++){
 		v[i] = 0;
 	}
-	v[1] = Start;
+	//v[1] = Start;
 	IniteValues(n);
-	value[Start] = 0;
+	//value[Start] = 0;
 }
 
-bool CanPlaceNextQuin (int i, int value){
+  //output of v[i]
+  void Output (int k, int j, int n){
+  	cout << "v[" << k << "]:     ";
+  	for (int i = 0; i <= n; i++){
+	cout << v[i] << " ";
+	}
+	cout << endl;
+	cout << "value[" << j << "]: ";
+	for (int j = 0; j <= n; j++){
+	cout << value[j] << " ";
+	}
+	cout << endl;
+  }
+
+
+bool CanPlaceQuin (int i, int value){
   for (int k = i - 1; k > 0; k--){
     if (abs(i - k) != abs(value - v[k]));
     else return false;
@@ -30,86 +46,62 @@ bool CanPlaceNextQuin (int i, int value){
 return true;
 }
 
-void StepBack (int i, int n){
-	if (i >= 1){
-		if (v[i] < n){
-			value[v[i]] = v[i];
-			v[i] = 0;
-			for (int j = v[i]; j <= n; ++j){
-				if (value[j] != 0){
-					if (CanPlaceNextQuin){
-						v[i] = value[j];
-						value[j] = 0;
-						j = n + 1;
-						PlaceQuin(++i, n);
-					}
-				}
-			}
-		}
-		StepBack(--i, n);
-	}
-}
-
-
-void PlaceQuin (int i, int n){
-	if (i <= n){
-		for (int j = v[i]; j <= n; ++j){
-			if (value[j] != 0){
-				if (CanPlaceNextQuin(i, value[j])){
-					v[i] = value[j];
-					value[j] = 0;
-					j = n + 1;
-					PlaceQuin(++i, n);
-				}
-			}
-		}
-		StepBack(--i, n);
-	} else {
-		v[0]++;
-		sum++;
-		StepBack(--i, n);
-	}
+int Step (int i, int n){
+	int j = 0;
+	if ((i > 0) && (i <= n)){
+		//branch of the investigment
+		//cout << "If Branch " << v[0] << endl;
 		
+		j = v[i];
+		//Output(i, j, n);
+		while (j < n){
+			j++;
+			if (value[j] != 0){
+				if (CanPlaceQuin(i, value[j])){	//step forward
+					value[v[i]] = v[i];	//saving current value in the 'i' colon
+					v[i] = value[j];	//placing new (tested) value to the board
+					value[j] = 0;	//deleting value that we placed above from the vecter of free values
+					return 0 + Step(++i, n);	//going to the next colon
+				}
+			}
+		} 
+		//step back
+		value[v[i]] = v[i];	//saving current value in the 'i' colon to the vecter of free values
+		v[i] = 0;		//deleting value in the 'i' colon
+		return 0 + Step(--i, n);	//going to the previous colon
+		
+	}
+	else {
+		//cout << "Else Branch" << endl;
+		//Output(i, j, n);
+		if (i > n){			//branch of succes
+			v[0]++;		//Plus one to the amount of cases
+			Output(i, j, n);	//We con print all valid cases! =)
+			return 1 + Step(--i, n);	//going back to find more cases
+		}
+		else if (i == 0) {
+			//cout << "=================" << endl << "v[0] = " << v[0] <<" The End" << endl << "=================" << endl; //This is the end (if i = 0)}
+			return 0;
+
+		}
+	} return 0;
 }
 
 int main (){
-  int n, point;
-  int init = 0, output = 1;
+  int n;
   
   //INPUT
-  cin >> n >> point;
-
-  
-  //inite v[i]
-  //inite value[j]
-
-  IniteBoard(point, n);
+  cin >> n;
+  IniteBoard(0, n);
   
   
   //PROCESSING
-  //PlaceQuin(++point, n);
-  //IniteBoard(2, n);
-  //(2, n);
+  cout << Step(1,n);
+  
 
   
   //OUTPUT
-  cout << sum << endl;
-
-  //output of v[i]
-  output = 1;
-  if (output == 1) {
-    for (int i = 0; i <= n; i++){
-      cout << v[i] << " ";
-    }
-    cout << endl;
-  }
-  //output of value[j]
-  if (output == 1) {
-    for (int j = 0; j <= n; j++){
-      cout << value[j] << " ";
-    }
-  }  
-
+  //Output(1, 1, n);	//Output for debugging
 
 return 0;
 }
