@@ -14,17 +14,14 @@ void IniteValues (int n){	//Proc that initiate possible values for "lines".
 	}
 }
 
-void IniteBoard (int Start, int n){	//Proc that initiate coordinates of Quins.
+void IniteBoard (int n){	//Proc that initiate coordinates of Quins.
 	for (int i = 1; i <= n; i++){
 		v[i] = 0;
 	}
-	//v[1] = Start;
 	IniteValues(n);
-	//value[Start] = 0;
 }
 
-  //output of v[i]
-  void Output (int k, int j, int n){
+  void Output (int k, int j, int n){	//output of v[i] and value[j]. Only for debugging.
   	cout << "v[" << k << "]:     ";
   	for (int i = 0; i <= n; i++){
 	cout << v[i] << " ";
@@ -38,7 +35,9 @@ void IniteBoard (int Start, int n){	//Proc that initiate coordinates of Quins.
   }
 
 
-bool CanPlaceQuin (int i, int value){
+bool CanPlaceQuin (int i, int value){	//Proc that tests a condition to put Quin in the currunt colomn
+				//It tests only diagonals, becouse Quins can not be on the same line
+				//by using vector of unique values of lines - value[j].
   for (int k = i - 1; k > 0; k--){
     if (abs(i - k) != abs(value - v[k]));
     else return false;
@@ -46,45 +45,42 @@ bool CanPlaceQuin (int i, int value){
 return true;
 }
 
-int Step (int i, int n){
+int Step (int i, int n){	//function that tryes to put Quin in the next colomn.
+			//If colomn becoms bigger than n - we have placed all Quins on the board
+			//so, Step() return 1 and go to the previous colomn seeking new possible lines.
 	int j = 0;
 	if ((i > 0) && (i <= n)){
-		//branch of the investigment
-		//cout << "If Branch " << v[0] << endl;
-		
+		//branch of the investigation
 		j = v[i];
 		//Output(i, j, n);
-		while (j < n){
+		while (j < n){	//Condition that tests line that is smaller than n;
 			j++;
 			if (value[j] != 0){
-				if (CanPlaceQuin(i, value[j])){	//step forward
-					value[v[i]] = v[i];	//saving current value in the 'i' colon
+				if (CanPlaceQuin(i, value[j])){	//If Try - we have foun new line for current Quin
+					value[v[i]] = v[i];	//saving current line in the current colomn
 					v[i] = value[j];	//placing new (tested) value to the board
 					value[j] = 0;	//deleting value that we placed above from the vecter of free values
-					return 0 + Step(++i, n);	//going to the next colon
+					return 0 + Step(++i, n);	//going to the next colomn
 				}
 			}
 		} 
-		//step back
-		value[v[i]] = v[i];	//saving current value in the 'i' colon to the vecter of free values
-		v[i] = 0;		//deleting value in the 'i' colon
-		return 0 + Step(--i, n);	//going to the previous colon
+		//step back to find more possible cases.
+		value[v[i]] = v[i];	//saving current value of the colomn to the vecter of free values.
+		v[i] = 0;		//deleting value in the current colomn.
+		return 0 + Step(--i, n);	//going to the previous colomn.
 		
 	}
 	else {
-		//cout << "Else Branch" << endl;
 		//Output(i, j, n);
-		if (i > n){			//branch of succes
+		if (i > n){			//branch of success!
 			v[0]++;		//Plus one to the amount of cases
-			Output(i, j, n);	//We con print all valid cases! =)
+			//Output(i, j, n);	//We can print here all valid cases! =)
 			return 1 + Step(--i, n);	//going back to find more cases
 		}
-		else if (i == 0) {
-			//cout << "=================" << endl << "v[0] = " << v[0] <<" The End" << endl << "=================" << endl; //This is the end (if i = 0)}
+		else {	//This is The End.
 			return 0;
-
 		}
-	} return 0;
+	}
 }
 
 int main (){
@@ -92,16 +88,13 @@ int main (){
   
   //INPUT
   cin >> n;
-  IniteBoard(0, n);
-  
+  IniteBoard(n);
   
   //PROCESSING
   cout << Step(1,n);
-  
-
-  
-  //OUTPUT
-  //Output(1, 1, n);	//Output for debugging
+ 
+  //Temporary output for debugging
+  //Output(1, 1, n);
 
 return 0;
 }
