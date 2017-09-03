@@ -1,0 +1,20 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main(){
+	int p1, p2, p3, n;
+	char c;
+	string s;
+	getline(cin, s);
+	if (s.size() <= 15) {
+		for (auto c : s){
+			if (c >= '0' || c <= '9' || c == '.'){
+			
+			}else cout << "no";
+		}
+	}else cout << "no";
+	
+	return 0;
+}
