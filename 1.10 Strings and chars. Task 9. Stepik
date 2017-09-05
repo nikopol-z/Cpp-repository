@@ -1,31 +1,55 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
+
+vector <int> p(5);
+
+bool NumIsCorrect(string s, int i){
+	return 1;
+}
+
+void Print(int dots, int i, int j){
+	//int dots, i, j, p;
+	cout << endl << "===== Test Info =====" << endl;
+	cout << "dots: " << dots << endl;
+	cout << "i: " << i << endl;
+	cout << "j: " << j << endl;
+	for (int k = 0; k < 5; k++) cout << p[k] << " ";
+	cout << endl;
+	
+}
 
 int main(){
 	int j = 1, n = 0, i = 0;
 	int dots = 0;
 	//char c;
-	vector <int> p(5);
+	
 	string s;
 	getline(cin, s);
 	n = s.size();
 	p[0] = -1;
 	p[4] = n;
 	if (n <= 15 && n >= 7) {
-		while ((int) s.find('.', i) != -1 || dots > 3){
-			dots++;
-			p[j] = i;
+		while (dots <= 3 && i < n){
+			if ((int) s.find('.', i) != -1){
+				i = (int) s.find('.', i);
+				dots++;
+				p[j] = i;
+				j++;
+				} else i = n;
+			i++;
+			Print(dots, i, j);
 		}
-		if (dots != 3) cout << "no";
+		if (dots != 3) cout << "no (not 3 dots)";
 		else {
 			if (NumIsCorrect(s, i)) cout << "yes";
 			else cout << "no";
 		}
-	} else cout << "no";
+	} else cout << "no (too long or too short)";
 
-	
+	//cout << "s.find: " << (int) s.find('.', 0) << endl;
 	
 	
 	return 0;
